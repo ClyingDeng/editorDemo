@@ -4,11 +4,15 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <style lang="scss">
+::-webkit-scrollbar {
+  width: 0px;
+  height: 10px;
+}
 #app {
   font-family: '黑体', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

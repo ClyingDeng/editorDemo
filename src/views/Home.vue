@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <DialogBox></DialogBox>
-   <Editor></Editor>
+   <!-- <Editor></Editor> -->
   </div>
 </template>
 
