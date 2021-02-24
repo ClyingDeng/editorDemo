@@ -13,47 +13,33 @@
                 isSecond: item.level === '2',
                 isActive: index == activeMenu,
               }"
+              @click="jump(index)"
             >
-              <div v-if="item.level !== '2'" @click="jump(index)">
-                <div class="liContent">
+              <div class="liContent">
+                <div class="icon">
+                  <img :src="'./assets/' + item.icon + '.svg'" alt="" />
+                </div>
+                <div class="text">
+                  <p class="leftTitle">{{ item.title }}</p>
+                  <p class="time">{{ item.time }}</p>
+                </div>
+              </div>
+              <ul v-if="item.secondSj" class="secondUl">
+                <li
+                  class="secondLi"
+                  v-for="(item1, index2) in item.secondSj"
+                  :key="item1.tid"
+                  @click="jump(index, index2)"
+                >
                   <div class="icon">
                     <img :src="'./assets/' + item.icon + '.svg'" alt="" />
                   </div>
                   <div class="text">
-                    <p class="leftTitle">{{ item.title }}</p>
-                    <p class="time">{{ item.time }}</p>
+                    <p class="leftTitle">{{ item1.title }}</p>
+                    <p class="time">{{ item1.time }}</p>
                   </div>
-                </div>
-              </div>
-              <!-- 有层级 -->
-              <div v-if="item.level === '2'">
-                <div class="liContent" @click="jump(index)">
-                  <div class="icon">
-                    <img :src="'./assets/' + item.icon + '.svg'" alt="" />
-                  </div>
-                  <div class="text">
-                    <p class="leftTitle">{{ item.title }}</p>
-                    <p class="time">{{ item.time }}</p>
-                  </div>
-                </div>
-
-                <ul v-if="item.secondSj" class="secondUl">
-                  <li
-                    class="secondLi"
-                    v-for="(item1, index2) in item.secondSj"
-                    :key="item1.tid"
-                    @click="jump(index, index2)"
-                  >
-                    <div class="icon">
-                      <img :src="'./assets/' + item.icon + '.svg'" alt="" />
-                    </div>
-                    <div class="text">
-                      <p class="leftTitle">{{ item1.title }}</p>
-                      <p class="time">{{ item1.time }}</p>
-                    </div>
-                  </li>
-                </ul>
-              </div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -379,17 +365,16 @@ export default class extends Vue {
   }
   private jump(index: number, number?: number) {
     this.activeMenu = index;
-    console.log(index);
     let jump: any = document.querySelectorAll('.first');
     let total;
     if (number === 0 || number) {
       let second: any = document.querySelectorAll('.secondTitle');
       // console.log(number, second[number].offsetTop);
       total = second[number].offsetTop - jump[0].offsetTop;
-      // console.log('number', index, total);
+      console.log('number', number, total);
     } else {
       total = jump[index].offsetTop - jump[0].offsetTop;
-      // console.log('index', index, total);
+      console.log('index', typeof number, total);
     }
     (document.getElementById('scrollBox') as HTMLElement).scrollTo({
       top: total,
@@ -406,12 +391,9 @@ export default class extends Vue {
       () => {
         const current_offset_top = scrollBox.scrollTop;
         for (let i = 0; i < jump.length; i++) {
-          if (
-            current_offset_top >= jump[i].offsetTop &&
-            current_offset_top <= jump[i + 1].offsetTop
-          ) {
+          if (current_offset_top <= jump[i].offsetTop) {
             that.activeMenu = i;
-            console.log(current_offset_top, jump[i].offsetTop, that.activeMenu);
+            console.log(current_offset_top, jump[2].offsetTop, that.activeMenu);
             break;
           }
         }
